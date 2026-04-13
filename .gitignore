@@ -1,0 +1,10 @@
+# Example .gitignore
+*.o
+*.so
+*.root
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+venv*
+output*
