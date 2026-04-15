@@ -95,11 +95,52 @@ cd cr_analysis
 # Step 1 — local or lxplus
 python3 cr_step1_select.py
 
-# Steps 2–3 and superposition — require ROOT (lxplus)
+# Steps 2–3 and superposition — require ROOT
 source ../setup_lxplus.sh
 python3 cr_step2_analyze.py
 python3 cr_step3_analyze.py
 python3 cr_superposition.py
+
+## Output Structure
+
+All analysis outputs are written under `output/`:
+
+```
+output/{dataset}/
+├── csv/
+│   ├── {dataset}-CR_events.csv
+│   ├── {dataset}-CR_charges.csv
+│   ├── {dataset}-CR_equalization.csv
+│   └── {dataset}-CR_charges_equalized.csv
+└── plots/
+    ├── event_displays/
+    ├── single_traces/
+    ├── summary/
+    └── step3/
+        ├── langaus_slices/
+        └── fit_range_scan/
+```
+
+
+<img src="figures_for_readme_page/01_CR/01_evt_display.png" alt="evt display" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/02_strips.gif" alt="strips" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/03_cr_superposition.png" alt="cr superposition" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/04_equalized_dqdx.png" alt="equalized dqdx" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/05_single_dqdx.png" alt="single dqdx" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/06_dqdx_vs_pktime.png" alt="dqdx vs pktime" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/07_linear_lifetime_systematic.png" alt="linear lifetime systematic" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/08_dqdx_vs_pktime_tslice.png" alt="dqdx vs pktime tslice" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/09_timeslice.png" alt="timeslice" width="500"/>
+
+<img src="figures_for_readme_page/01_CR/10_e_lifetime_fit_example.png" alt="e lifetime fit example" width="500"/>
 
 
 ```
@@ -109,19 +150,7 @@ Configure dataset and analysis parameters in `config_cr.py`.
 
 ### `source_analysis/` — Bi-207 source analysis
 
-Analyses data collected with the internal Bi-207 conversion-electron source.
-The source emits electrons at well-known discrete energies (976 keV and
-1048 keV conversion lines), enabling several complementary measurements:
-
-- **Absolute energy calibration** — ADC-to-charge conversion factor and
-  gain uniformity across the 48 collection strips
-- **Electric field distortion mapping** — deviations in the reconstructed
-  peak position as a function of strip and drift coordinate reveal local
-  distortions of the drift field
-- **Event-by-event LAr purity monitoring** — attenuation of the
-  conversion-electron charge signal with drift distance provides a
-  continuous, in-situ electron lifetime measurement, complementary to
-  the CR muon method
+Analyses data collected with the internal Bi-207 conversion-electron source. 
 
 **Main scripts:**
 
@@ -165,6 +194,14 @@ bash run_multiple_days.sh
 | `show_event.py` / `single_evt_display.py` | Event display |
 | `settings.py` | Thresholds, channel map, output paths |
 
+<img src="figures_for_readme_page/02_SRC/01_scr_candidate_evts.png" alt="scr candidate evts" width="500"/>
+
+<img src="figures_for_readme_page/02_SRC/02_chn_charge.png" alt="chn charge" width="500"/>
+
+<img src="figures_for_readme_page/02_SRC/03_charge.gif" alt="charge" width="500"/>
+
+<img src="figures_for_readme_page/02_SRC/04_cluster.gif" alt="cluster" width="500"/>
+
 ---
 
 ### `backgroud_simulation/` — Bi-207 background simulation
@@ -207,6 +244,14 @@ gfortran -o bi207bg bi207bg.f
 cd backgroud_simulation/python
 python3 Bi207bg.py
 ```
+
+<img src="figures_for_readme_page/03_BKG/01.png" alt="01" width="500"/>
+
+<img src="figures_for_readme_page/03_BKG/02.png" alt="02" width="500"/>
+
+<img src="figures_for_readme_page/03_BKG/03.png" alt="03" width="500"/>
+
+<img src="figures_for_readme_page/03_BKG/04.png" alt="04" width="500"/>
 
 ---
 
@@ -270,12 +315,6 @@ Dataset directories in `output/` follow the naming convention
 source setup_lxplus.sh   # sources LCG_109, sets PYTHONPATH
 ```
 
-### Local (Step 1 of CR analysis, source analysis, simulations)
-
-```bash
-source setup_local.sh    # activates Python venv with NumPy, SciPy, Matplotlib
-```
-
 ### Dependencies summary
 
 | Package | Used in |
@@ -295,7 +334,7 @@ Raw acquisition data is expected at:
 ../DATA/{dataset}/jsonData/
 ```
 relative to each analysis directory. JSON files are produced by
-`data_conversion/`. The `DATA/` folder is not tracked in this repository.
+`data_conversion/`. The `DATA/` folder is not tracked in this repository. 
 
 ---
 
