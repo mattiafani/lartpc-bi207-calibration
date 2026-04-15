@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Jul 28 12:39:50 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import numpy as np
 from inc.findPeaks import findPeaks
@@ -25,7 +20,8 @@ def prepare_data(filter_cosmics, data, evt_title, saveFileName, isbatchbool, jFi
         channel = 'chn' + str(strip_index)
         if len(data[channel]) != NTT:
             print(
-                f'{output_align}!! Event {jEvtNr}: strip {strip_index} has dimension {len(np.array(data[channel]))} '
+                f'{output_align}!! Event {jEvtNr}: strip {
+                    strip_index} has dimension {len(np.array(data[channel]))} '
                 f'instead of {NTT}.')
             is_data_dimension_incorrect = True
 
@@ -52,12 +48,14 @@ def prepare_data(filter_cosmics, data, evt_title, saveFileName, isbatchbool, jFi
             mostFreqADC = most_frequent(data[channel])
 
             adc[:, strip_index] = np.array(data[channel]) - mostFreqADC
-            peaks, prop, peak_ranges = findPeaks(adc[:, strip_index], strip_index, peak_height, peak_width)
+            peaks, prop, peak_ranges = findPeaks(
+                adc[:, strip_index], strip_index, peak_height, peak_width)
             if len(peaks) > 0:
                 event_channels_w_peaks.append(len(peaks))
         if len(event_channels_w_peaks) > 20:
             is_event_cosmic_or_shower = True
-            print(f"{output_align}! Non-source event detected. Event ({jFileNr}, {jEvtNr}).")
+            print(
+                f"{output_align}! Non-source event detected. Event ({jFileNr}, {jEvtNr}).")
             # show_event(data,evt_title,saveFileName,isbatchbool)
 
     ####

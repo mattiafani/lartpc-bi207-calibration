@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Jul 29 14:51:53 2023
 
-@author: matt
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,7 +16,8 @@ print(" ")
 print(properties['left_bases'])
 print(properties['right_bases'])
 
-diff = [properties['right_bases'][i]-properties['left_bases'][i] for i in range(len(properties['left_bases']))]
+diff = [properties['right_bases'][i]-properties['left_bases'][i]
+        for i in range(len(properties['left_bases']))]
 print(diff)
 
 plt.plot(x)

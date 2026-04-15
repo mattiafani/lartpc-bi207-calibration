@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri May 12 15:47:32 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import matplotlib.pyplot as plt
 
@@ -48,7 +43,8 @@ def analyze_single_strips(year, cnt, terminal_bool, plot_dir, txt_filename, raw_
     s = [[] for _ in range(NC)]
     r = [[] for _ in range(NC)]
 
-    peak_width, blip_heights_per_plane, blip_distance = get_blips_parameters(year)
+    peak_width, blip_heights_per_plane, blip_distance = get_blips_parameters(
+        year)
 
     for chn in range(NC):
         if chn < NCC:
@@ -60,7 +56,8 @@ def analyze_single_strips(year, cnt, terminal_bool, plot_dir, txt_filename, raw_
 
         # storing peak_ranges for all strips
         # peak_ranges is: t_peak_start[i_peak],t_peak_top[i_peak],t_peak_end[i_peak],integral[i_peak]
-        s[chn], r[chn] = find_blips_50l(adc[:, chn], chn, blip_height, peak_width, distance=blip_distance)
+        s[chn], r[chn] = find_blips_50l(
+            adc[:, chn], chn, blip_height, peak_width, distance=blip_distance)
 
     for chn in range(NC):
 

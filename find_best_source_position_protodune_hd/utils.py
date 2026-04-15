@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 18 11:48:20 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, USA) - mattia.fani@cern.ch
-
-"""
 
 import math
 
@@ -22,6 +17,7 @@ def get_m_from_deg(deg):
 
 def point_line_dist(a, b, c, x0, y0):
     return abs(a*x0 + b*y0 + c)/((a**2 + b**2)**(1/2))
+
 
 def get_colors_legend_list(colors, n_wires):
     all_colors = []

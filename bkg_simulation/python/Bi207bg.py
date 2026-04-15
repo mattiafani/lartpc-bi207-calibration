@@ -1,12 +1,6 @@
 #/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 01 22:50:26 2023
 
-@author: Mattia Fanì (LANL) - mattia.fani@cern.ch
-Based on simulation code of Francesco Pietropaolo (CERN)
-
-"""
 import sys
 import math
 import time

@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  4 19:40:34 2023
-
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,7 +23,8 @@ def draw_summary_plots(terminal_bool, h1d_charge_per_strip, path_to_folder_plots
 
     # list: event counter per strip
     plot_scatter_histo(terminal_bool, list_evts_per_strip, raw_data_folder_name,
-                       f"Charged particle events per strip - {round(sum(list_evts_per_strip[:NCC]), 0)} "
+                       f"Charged particle events per strip - {
+                           round(sum(list_evts_per_strip[:NCC]), 0)} "
                        f"charged particles events recorded on collection strips",
                        "Events", "Strip", "#", 'blue', evt_counter)
 

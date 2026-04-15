@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 11 15:34:22 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt

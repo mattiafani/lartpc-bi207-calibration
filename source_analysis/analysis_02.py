@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 13 18:48:06 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import os
 import sys
@@ -52,7 +47,8 @@ def main(raw_data_folder_name, input_evtdisplay_bool, input_chndisplay_bool,
     path_to_folder_plots = f"./Plots/{raw_data_folder_name}"
     Path(path_to_folder_plots).mkdir(parents=True, exist_ok=True)
 
-    txt_filename = txt_file_initialize(path_to_folder_plots, raw_data_folder_name)
+    txt_filename = txt_file_initialize(
+        path_to_folder_plots, raw_data_folder_name)
 
     evt_counter = 0
     evt_counter = read_data(terminal_bool, evt_counter, raw_data_folder_name, path_to_folder_plots, txt_filename,

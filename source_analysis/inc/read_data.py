@@ -1,11 +1,6 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 13 18:48:06 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import os
 import json
@@ -26,13 +21,15 @@ plt.rcParams.update({'font.size': 20})
 def polish_event_data(path_to_folder_plots, json_file, event, raw_data_folder_name, data, i, input_equalize_bool,
                       input_filter_bool, noisy_channels, terminal_bool):
     run_time, evt_title, save_file_name, event_id, binary_file_id, binary_event_id, converted_file_id, converted_event_id = \
-        polish_event(path_to_folder_plots, json_file, event, raw_data_folder_name, data, i)
+        polish_event(path_to_folder_plots, json_file,
+                     event, raw_data_folder_name, data, i)
 
     # Prepare event for analysis: Baseline subtraction, check event dimension, check event type, equalization
 
     adc, is_event_ok = prepare_data(input_equalize_bool, input_filter_bool, noisy_channels,
                                     event, evt_title, save_file_name, run_time,
-                                    terminal_bool, str(event['convertedFileID']),
+                                    terminal_bool, str(
+                                        event['convertedFileID']),
                                     str(event['convertedEventID']))
     return run_time, evt_title, save_file_name, event_id, adc, is_event_ok, binary_file_id, binary_event_id, converted_file_id, converted_event_id
 
@@ -52,7 +49,8 @@ def polish_event(path_to_folder_plots, json_file, event, raw_data_folder_name, d
                  f"{binary_event_id}) ({converted_file_id}, {converted_event_id})")
 
     # Remove coherent noise for calculations & event display - The bools correspond to strip planes: C, I1, I2
-    data['all'][i] = remove_coherent_noise(False, False, False, event, evt_title, save_file_name)
+    data['all'][i] = remove_coherent_noise(
+        False, False, False, event, evt_title, save_file_name)
 
     return run_time, evt_title, save_file_name, event_id, binary_file_id, binary_event_id, converted_file_id, converted_event_id
 
@@ -106,10 +104,12 @@ def open_files(terminal_bool, evt_counter, path_to_folder_converted_files, txt_f
 
                             # Event Display
                             if input_evtdisplay_bool:
-                                show_event(adc, run_time, evt_title, save_file_name, terminal_bool)
+                                show_event(adc, run_time, evt_title,
+                                           save_file_name, terminal_bool)
 
                         else:
-                            print(f"{output_align}! Event {evt_title} excluded from current analysis.")
+                            print(f"{output_align}! Event {
+                                  evt_title} excluded from current analysis.")
 
                 tf.close()
 
@@ -120,7 +120,8 @@ def read_data(terminal_bool, evt_counter, raw_data_folder_name, path_to_folder_p
               input_evtdisplay_bool, input_chndisplay_bool, input_equalize_bool, input_filter_bool,
               h1d_charge_per_strip, h1d_peaks, h1d_charge, list_evts_per_strip):
 
-    path_to_folder_converted_files = f"../../DATA/{raw_data_folder_name}/jsonData/"
+    path_to_folder_converted_files = f"../../DATA/{
+        raw_data_folder_name}/jsonData/"
     Path(path_to_folder_converted_files).mkdir(parents=True, exist_ok=True)
 
     makedirs(path_to_folder_plots, exist_ok=True)

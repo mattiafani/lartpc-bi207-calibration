@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 20 16:01:46 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import matplotlib.pyplot as plt
 from inc.settings import NCC, NTT
@@ -60,7 +55,8 @@ def nicer_single_evt_display(chn, y, peaks, save_file_name, evt_title, yrange, p
             peak_region_x = np.arange(peak_start, peak_end)
             peak_region_y = y[peak_region_x]
             if chn < NCC:
-                ax.fill_between(peak_region_x, 0, peak_region_y, color='gold', alpha=0.5)
+                ax.fill_between(peak_region_x, 0, peak_region_y,
+                                color='gold', alpha=0.5)
 
     ax.set_ylabel('ADC (baseline subtracted)', labelpad=10, fontsize=24)
     ax.set_xlabel('time ticks [0.5 µs/tick]', fontsize=24)
@@ -70,7 +66,8 @@ def nicer_single_evt_display(chn, y, peaks, save_file_name, evt_title, yrange, p
     ax.grid(True, which='major', axis='both', linewidth=1, color='gray')
 
     # Secondary grid on x-axis
-    ax.grid(True, which='minor', axis='x', linewidth=0.5, linestyle='dashed', color='gray')
+    ax.grid(True, which='minor', axis='x', linewidth=0.5,
+            linestyle='dashed', color='gray')
 
     # Set x-axis ticks and minor ticks
     ax.set_xticks(np.arange(0, NTT + 1, 50))

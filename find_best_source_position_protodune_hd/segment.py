@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 18 11:48:20 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, USA) - mattia.fani@cern.ch
-
-"""
 
 import string
 import matplotlib
@@ -20,13 +15,13 @@ class Segment:
                  color: string,
                  linewidth: float = 0.1,
                  zorder: int = 1):
-        
+
         self.start = start
         self.end = end
         self.color = color
         self.linewidth = linewidth
         self.zorder = zorder
-        
+
         self.m = self.__get_m()
         self.q = self.__get_q()
         self.a = self.__get_a()
@@ -62,7 +57,7 @@ class Segment:
 
     def set_linewidth(self, linewidth):
         self.linewidth = linewidth
-        
+
     def set_line_zorder(self, zorder):
         self.zorder = zorder
 

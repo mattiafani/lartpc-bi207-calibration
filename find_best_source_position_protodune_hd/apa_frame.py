@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 18 11:48:20 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, USA) - mattia.fani@cern.ch
-
-"""
 
 import string
 
@@ -69,7 +64,8 @@ class APAframe:
                 wire_names = [wire_name for wire_name, _ in near_wires_names]
             else:
                 wire_names = \
-                    [f"{wire_name}, dist = {dist:.2f} mm" for (wire_name, _), dist in zip(near_wires_names, distances)]
+                    [f"{wire_name}, dist = {dist:.2f} mm" for (
+                        wire_name, _), dist in zip(near_wires_names, distances)]
             self.ax.legend(custom_lines, wire_names, bbox_to_anchor=(1.1, 1.0))
         plt.title(title)
         if save_fig_path != '':

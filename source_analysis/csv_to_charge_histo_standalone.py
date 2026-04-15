@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Oct  9 00:30:41 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm  # rainbow histos
@@ -43,9 +38,12 @@ for c_strip_index, color in zip(range(NCC), colors):
             filename_strip_index = str(c_strip_index)
 
         # coincidences_file_name = f"{plot_dir}/{raw_data_folder_name}/{csv_file_name}.csv"
-        file_title = f"{plot_dir}/{raw_data_folder_name}/{csv_file_name}_Coincidences_{source}_strip_{filename_strip_index}.csv"
-        plot_title_coincidence = f"{csv_file_name} - {source} source, Coincidences - {n_entries} events"
-        plot_title_coincidence_cluster = f"{csv_file_name} - {source} source, Coincidences Cluster - {n_entries} events"
+        file_title = f"{plot_dir}/{raw_data_folder_name}/{
+            csv_file_name}_Coincidences_{source}_strip_{filename_strip_index}.csv"
+        plot_title_coincidence = f"{
+            csv_file_name} - {source} source, Coincidences - {n_entries} events"
+        plot_title_coincidence_cluster = f"{
+            csv_file_name} - {source} source, Coincidences Cluster - {n_entries} events"
 
         # Load the CSV data
         df = pd.read_csv(file_title)

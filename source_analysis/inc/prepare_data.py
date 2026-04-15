@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Jul 28 12:39:50 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import numpy as np
 from inc.settings import NC, NCC, NTT, output_align, ch_eq_year, get_cosmic_rejection_parameters
@@ -55,12 +50,14 @@ def prepare_data(equalize_bool, filter_bool, noisy_channels, data, evt_title, sa
     is_event_cosmic_or_shower = False
     if filter_bool and not is_data_dimension_incorrect:
 
-        peak_width, peak_height, n_strips_w_peaks = get_cosmic_rejection_parameters(evt_title[:4])
+        peak_width, peak_height, n_strips_w_peaks = get_cosmic_rejection_parameters(
+            evt_title[:4])
         event_channels_w_peaks = []
 
         for chn in range(NCC):
 
-            peaks, prop, peak_ranges = find_peaks_50l(adc[:, chn], chn, peak_height, peak_width)
+            peaks, prop, peak_ranges = find_peaks_50l(
+                adc[:, chn], chn, peak_height, peak_width)
             if len(peaks) > 0:
                 event_channels_w_peaks.append(len(peaks))
 
@@ -70,7 +67,8 @@ def prepare_data(equalize_bool, filter_bool, noisy_channels, data, evt_title, sa
         if len(event_channels_w_peaks) > n_strips_w_peaks:
             is_event_cosmic_or_shower = True
             if first_time:
-                print(f"{output_align}! Non-source event detected. Event ({j_file_nr}, {j_evt_nr}).")
+                print(
+                    f"{output_align}! Non-source event detected. Event ({j_file_nr}, {j_evt_nr}).")
             # show_event(adc, run_time, evt_title, save_file_name, isbatchbool)
 
     ####

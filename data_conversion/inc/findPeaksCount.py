@@ -1,13 +1,8 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Jun 23 11:20:08 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
 
-"""
-
-#import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 from scipy.signal import find_peaks
 import inc.settings

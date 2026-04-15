@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Sep 23 15:06:12 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 ch = [25, 26, 89, 27, 28, 90, 29, 30, 31, 32,
       91, 33, 34, 92, 35, 36, 37, 38, 93, 39,
@@ -33,7 +28,8 @@ for i in range(len(ch)):
                 k = ch_sorted[i]
                 ch_sorted[i] = ch_sorted[j]
                 ch_sorted[j] = k
-                print(f"-> ch_sorted[i] = {ch_sorted[i]} | ch_sorted[j] = {ch_sorted[j]}")
+                print(f"-> ch_sorted[i] = {ch_sorted[i]
+                                           } | ch_sorted[j] = {ch_sorted[j]}")
 
     # Invert orientation Induction 1 plane
     if 48 < ch[i] < 69:
@@ -43,7 +39,8 @@ for i in range(len(ch)):
                 k = ch_sorted[i]
                 ch_sorted[i] = ch_sorted[j]
                 ch_sorted[j] = k
-                print(f"-> ch_sorted[i] = {ch_sorted[i]} | ch_sorted[j] = {ch_sorted[j]}")
+                print(f"-> ch_sorted[i] = {ch_sorted[i]
+                                           } | ch_sorted[j] = {ch_sorted[j]}")
 
     # Invert orientation Induction 2 plane
     if 88 < ch[i] < 109:
@@ -53,6 +50,7 @@ for i in range(len(ch)):
                 k = ch_sorted[i]
                 ch_sorted[i] = ch_sorted[j]
                 ch_sorted[j] = k
-                print(f"-> ch_sorted[i] = {ch_sorted[i]} | ch_sorted[j] = {ch_sorted[j]}")
+                print(f"-> ch_sorted[i] = {ch_sorted[i]
+                                           } | ch_sorted[j] = {ch_sorted[j]}")
 
 print(ch_sorted)

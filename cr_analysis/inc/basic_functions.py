@@ -1,11 +1,6 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Jun 23 11:20:08 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -45,7 +40,8 @@ def hist_basic(data, hist_range, bin_size, color, strip, xlabel, ylabel, raw_dat
     ax.grid(axis='y', alpha=0.5)
     ax.set_xlabel(xlabel, fontsize=16)
     ax.set_ylabel(ylabel, fontsize=16)
-    ax.set_title(f"{raw_data_folder_name}, {evt_nr} triggered events - {title}", fontsize=18)
+    ax.set_title(f"{raw_data_folder_name}, {
+                 evt_nr} triggered events - {title}", fontsize=18)
     ax.set_xticks(np.arange(hist_range[0], hist_range[1] + bin_size, 50))
     ax.set_yticks(ax.get_yticks())
     ax.tick_params(axis='both', labelsize=14)
@@ -84,7 +80,8 @@ def plot_coincidence_histos(terminal_bool, data, raw_data_folder_name, title, na
     else:
         str_strip = str(strip)
 
-    pl_name = f"./Plots/{raw_data_folder_name}/{raw_data_folder_name}_{data_type}_{name}_Strip{str_strip}"
+    pl_name = f"./Plots/{raw_data_folder_name}/{
+        raw_data_folder_name}_{data_type}_{name}_Strip{str_strip}"
 
     fig.savefig(f"{pl_name}.pdf",
                 format='pdf', dpi=100)
@@ -103,18 +100,21 @@ def plot_scatter_histo(terminal_bool, data, raw_data_folder_name, title, name, x
     plt.figure(figsize=(32, 9))
 
     plt.bar(x, y, edgecolor=color, color=color)
-    plt.title(f"{raw_data_folder_name}, {evt_nr} triggered events - {title}", fontsize=18)
+    plt.title(f"{raw_data_folder_name}, {
+              evt_nr} triggered events - {title}", fontsize=18)
     plt.xlabel(xlabel, fontsize=16)
     plt.ylabel(ylabel, fontsize=16)
     plt.xticks(range(0, len(data) + 1, 5), fontsize=14)
     plt.yticks(fontsize=14)
     plt.grid(axis='y', alpha=0.5)
-    plt.savefig(f"./Plots/{raw_data_folder_name}/{raw_data_folder_name}_{name}.pdf", format='pdf', dpi=100)
+    plt.savefig(
+        f"./Plots/{raw_data_folder_name}/{raw_data_folder_name}_{name}.pdf", format='pdf', dpi=100)
 
     if not terminal_bool:
         plt.show()
 
-    print(f' [{find_time_now()}] : ./Plots/{raw_data_folder_name}/{raw_data_folder_name}_{name}.pdf file created')
+    print(f' [{find_time_now()}] : ./Plots/{raw_data_folder_name}/{
+          raw_data_folder_name}_{name}.pdf file created')
 
     plt.clf()
     plt.close()
@@ -148,7 +148,8 @@ def plot_scatter_histo_ci(terminal_bool, data, filename, title, xlabel, ylabel, 
     y = data[NC:NCC + 1]  # this is okay
 
     plt.bar(x, y, edgecolor=color, color=color)
-    plt.title(f"{title}: {evt_nr} total triggers - Collection strip: {strip + 1}", fontsize=18)
+    plt.title(f"{title}: {
+              evt_nr} total triggers - Collection strip: {strip + 1}", fontsize=18)
     plt.xlabel(xlabel, fontsize=16)
     plt.ylabel(ylabel, fontsize=16)
     plt.xticks(range(50, NC, 5), fontsize=14)
@@ -156,7 +157,8 @@ def plot_scatter_histo_ci(terminal_bool, data, filename, title, xlabel, ylabel, 
     plt.grid(axis='y', alpha=0.5)
 
     total_entries = round(sum(y), 0)
-    legend_text = f"Collection strip: {strip + 1} - Total Entries: {total_entries}"
+    legend_text = f"Collection strip: {
+        strip + 1} - Total Entries: {total_entries}"
     plt.legend([legend_text], fontsize=12)
 
     plt.savefig(filename, format='pdf')

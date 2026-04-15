@@ -1,11 +1,6 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 13 18:48:06 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 import numpy as np
 

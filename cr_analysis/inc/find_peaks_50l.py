@@ -1,11 +1,6 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 09 18:48:06 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 from scipy.signal import find_peaks
 from inc.settings import NTT

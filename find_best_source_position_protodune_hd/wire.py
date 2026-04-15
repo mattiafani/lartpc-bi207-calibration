@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May 18 11:48:20 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, USA) - mattia.fani@cern.ch
-
-"""
 
 import math
 import string
@@ -50,11 +45,13 @@ class Wire:
     def __generate_stream(self):
         if self.start_y == 0:
             while self.start_y != self.apa_frame.height:
-                self.__add_new_segment(self.start_x, self.start_y, from_top=False)
+                self.__add_new_segment(
+                    self.start_x, self.start_y, from_top=False)
             self.end_x, self.end_y = self.start_x, self.start_y
         else:
             while self.start_y != 0:
-                self.__add_new_segment(self.start_x, self.start_y, from_top=True)
+                self.__add_new_segment(
+                    self.start_x, self.start_y, from_top=True)
             self.end_x, self.end_y = self.start_x, self.start_y
 
     def __add_new_segment(self,
@@ -79,7 +76,8 @@ class Wire:
         end_x = min(self.apa_frame.width, max(0, end_x))
 
         if (start_x != end_x and start_y != end_y) or self.deg == 90:
-            self.segments.append(Segment((start_x, start_y), (end_x, end_y), color=self.color))
+            self.segments.append(
+                Segment((start_x, start_y), (end_x, end_y), color=self.color))
         self.start_x = end_x
         self.start_y = end_y
         self.deg = 180 - self.deg
@@ -95,7 +93,8 @@ class Wire:
     def evaluate_point_distance(self, point: Point):
         dist = math.inf
         for segment in self.segments:
-            dist = min(dist, point_line_dist(segment.a, segment.b, segment.c, point.x, point.y))
+            dist = min(dist, point_line_dist(
+                segment.a, segment.b, segment.c, point.x, point.y))
         return dist
 
     def set_femb_number(self, femb_number):
@@ -115,7 +114,7 @@ class Wire:
     def set_linewidth(self, linewidth):
         for segment in self.segments:
             segment.set_linewidth(linewidth)
-            
+
     def set_line_zorder(self, zorder):
         for segment in self.segments:
             segment.set_line_zorder(zorder)
@@ -138,7 +137,9 @@ class Wire:
 
     def __str__(self):
         wire_name = f"{self.get_wire_plane_name()}_" \
-                    f"{str(self.get_wire_number()).zfill(int(math.log10(self.num_femb_wires)) + 1)}"
+            f"{str(self.get_wire_number()).zfill(
+                int(math.log10(self.num_femb_wires)) + 1)}"
         if self.get_femb_number() != '':
-            wire_name += f" FEMB{str(self.get_femb_number()).zfill(2)}_{str(self.get_wire_femb_number()).zfill(3)}"
+            wire_name += f" FEMB{str(self.get_femb_number()).zfill(2)
+                                 }_{str(self.get_wire_femb_number()).zfill(3)}"
         return wire_name

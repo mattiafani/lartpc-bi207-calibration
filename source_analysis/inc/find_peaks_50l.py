@@ -1,11 +1,6 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 09 18:48:06 2023
 
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 from scipy.signal import find_peaks
 from inc.settings import NTT
@@ -80,7 +75,8 @@ def find_peaks_50l(data, chn, peak_height, peak_width):
     peak_start, peak_top, peak_end, integral = [], [], [], []
     if pe.size > 0:
         for _ in pe:
-            peak_start, peak_top, peak_end, integral = find_peak_range(data, chn, pe)
+            peak_start, peak_top, peak_end, integral = find_peak_range(
+                data, chn, pe)
     return pe, prop, (peak_start, peak_top, peak_end, integral)
 
 
@@ -90,7 +86,8 @@ def find_blips_50l(data, chn, height, width, distance):
 
     peak_ranges = []
     if be.size > 0:
-        peak_start, peak_top, peak_end, integral = find_peak_range(data, chn, be)
+        peak_start, peak_top, peak_end, integral = find_peak_range(
+            data, chn, be)
         peak_ranges.append((peak_start, peak_top, peak_end, integral))
         # print(f"Return: peak_ranges={peak_ranges}")
 

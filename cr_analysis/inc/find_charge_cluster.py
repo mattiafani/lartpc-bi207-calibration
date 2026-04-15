@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Aug  4 01:36:43 2023
-
-@author: Mattia Fanì (Los Alamos National Laboratory, US) - mattia.fani@cern.ch
-
-"""
 
 
 def find_charge_cluster(adc, chn_c, peak_charge, r, s, candidate_event_C):
