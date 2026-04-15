@@ -26,8 +26,8 @@ class CRConfig:
     # ------------------------------------------------------------------ #
     #  Data                                                                #
     # ------------------------------------------------------------------ #
-    raw_data_folder_name: str = '20220511'
-    # raw_data_folder_name: str = '20220511_dev01'
+    # raw_data_folder_name: str = '20220511'
+    raw_data_folder_name: str = '20220511_dev01'
 
     # Root output directory — one subfolder per dataset is created here
     output_root: str = './output'
@@ -92,13 +92,13 @@ class CRConfig:
     # ------------------------------------------------------------------ #
 
     # 2-D event display (one PDF per selected event)
-    evtdisplay_step1: bool = False
-    # evtdisplay_step1: bool = True
+    # evtdisplay_step1: bool = False
+    evtdisplay_step1: bool = True
 
     # Single-channel trace display.
     # List any combination of 'C', 'I1', 'I2', or [] to disable entirely.
-    # chndisplay_planes_step1: list = ['C', 'I1', 'I2']
-    chndisplay_planes_step1: list = []
+    chndisplay_planes_step1: list = ['C', 'I1', 'I2']
+    # chndisplay_planes_step1: list = []
 
     # ------------------------------------------------------------------ #
     #  Step 2 — Re-processing                                              #
