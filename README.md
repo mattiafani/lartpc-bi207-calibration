@@ -1,6 +1,6 @@
-# 50-L LArTPC Calibration Analysis
+# 50-liters LArTPC Calibration Analysis
 
-This repository contains the full analysis chain for the **50-litre liquid
+This repository contains the full analysis chain for the **50-l liquid
 argon time-projection chamber (LArTPC) prototype** operated at CERN's
 Building 182, together with a geometric optimisation tool for
 **ProtoDUNE-HD** source placement.
