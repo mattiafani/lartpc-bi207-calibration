@@ -120,27 +120,27 @@ output/{dataset}/
         ├── langaus_slices/
         └── fit_range_scan/
 ```
+```
 
+<img src="figures_for_readme_page/01_CR/01_evt_display.png" alt="evt display" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/01_evt_display.png" alt="evt display" width="500"/>
+<img src="figures_for_readme_page/01_CR/02_strips.gif" alt="strips" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/02_strips.gif" alt="strips" width="500"/>
+<img src="figures_for_readme_page/01_CR/03_cr_superposition.png" alt="cr superposition" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/03_cr_superposition.png" alt="cr superposition" width="500"/>
+<img src="figures_for_readme_page/01_CR/04_equalized_dqdx.png" alt="equalized dqdx" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/04_equalized_dqdx.png" alt="equalized dqdx" width="500"/>
+<img src="figures_for_readme_page/01_CR/05_single_dqdx.png" alt="single dqdx" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/05_single_dqdx.png" alt="single dqdx" width="500"/>
+<img src="figures_for_readme_page/01_CR/06_dqdx_vs_pktime.png" alt="dqdx vs pktime" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/06_dqdx_vs_pktime.png" alt="dqdx vs pktime" width="500"/>
+<img src="figures_for_readme_page/01_CR/07_linear_lifetime_systematic.png" alt="linear lifetime systematic" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/07_linear_lifetime_systematic.png" alt="linear lifetime systematic" width="500"/>
+<img src="figures_for_readme_page/01_CR/08_dqdx_vs_pktime_tslice.png" alt="dqdx vs pktime tslice" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/08_dqdx_vs_pktime_tslice.png" alt="dqdx vs pktime tslice" width="500"/>
+<img src="figures_for_readme_page/01_CR/09_timeslice.png" alt="timeslice" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/09_timeslice.png" alt="timeslice" width="500"/>
-
-<img src="figures_for_readme_page/01_CR/10_e_lifetime_fit_example.png" alt="e lifetime fit example" width="500"/>
+<img src="figures_for_readme_page/01_CR/10_e_lifetime_fit_example.png" alt="e lifetime fit example" width="800"/>
 
 
 ```
@@ -194,13 +194,13 @@ bash run_multiple_days.sh
 | `show_event.py` / `single_evt_display.py` | Event display |
 | `settings.py` | Thresholds, channel map, output paths |
 
-<img src="figures_for_readme_page/02_SRC/01_scr_candidate_evts.png" alt="scr candidate evts" width="500"/>
+<img src="figures_for_readme_page/02_SRC/01_scr_candidate_evts.png" alt="scr candidate evts" width="800"/>
 
-<img src="figures_for_readme_page/02_SRC/02_chn_charge.png" alt="chn charge" width="500"/>
+<img src="figures_for_readme_page/02_SRC/02_chn_charge.png" alt="chn charge" width="800"/>
 
-<img src="figures_for_readme_page/02_SRC/03_charge.gif" alt="charge" width="500"/>
+<img src="figures_for_readme_page/02_SRC/03_charge.gif" alt="charge" width="800"/>
 
-<img src="figures_for_readme_page/02_SRC/04_cluster.gif" alt="cluster" width="500"/>
+<img src="figures_for_readme_page/02_SRC/04_cluster.gif" alt="cluster" width="800"/>
 
 ---
 
@@ -245,13 +245,13 @@ cd backgroud_simulation/python
 python3 Bi207bg.py
 ```
 
-<img src="figures_for_readme_page/03_BKG/01.png" alt="01" width="500"/>
+<img src="figures_for_readme_page/03_BKG/01.png" alt="01" width="800"/>
 
-<img src="figures_for_readme_page/03_BKG/02.png" alt="02" width="500"/>
+<img src="figures_for_readme_page/03_BKG/02.png" alt="02" width="800"/>
 
-<img src="figures_for_readme_page/03_BKG/03.png" alt="03" width="500"/>
+<img src="figures_for_readme_page/03_BKG/03.png" alt="03" width="800"/>
 
-<img src="figures_for_readme_page/03_BKG/04.png" alt="04" width="500"/>
+<img src="figures_for_readme_page/03_BKG/04.png" alt="04" width="800"/>
 
 ---
 
