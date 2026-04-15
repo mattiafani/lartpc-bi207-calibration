@@ -1,253 +1,304 @@
-# CR Muon Analysis — `cr_analysis/`
+# 50-L LArTPC Calibration Analysis
 
-This directory contains the cosmic ray (CR) muon analysis pipeline for the
-50-liter LArTPC prototype operated at CERN's Building 182.
-CR muons crossing the detector are used to study detector response,
-perform charge equalization across collection strips, and measure the
-electron lifetime in liquid argon.
+This repository contains the full analysis chain for the **50-litre liquid
+argon time-projection chamber (LArTPC) prototype** operated at CERN's
+Building 182, together with a geometric optimisation tool for
+**ProtoDUNE-HD** source placement.
 
----
-
-## Physics Overview
-
-Cosmic ray muons are assumed at MIP (minimum-ionising particles). They traverse the
-full active volume, crossing all 48 collection strips by detector construction & trigger definition. The charge deposited
-per unit track length follows a convolved Landau-Gaussian distribution, whose most probable
-value (MPV) provides a stable reference for:
-
-- **Charge equalization** — correcting for gain non-uniformity between the
-  two halves of the collection plane (strips 1–24 vs 25–48)
-- **Electron lifetime measurement** — the exponential attenuation of charge
-  as a function of drift time reveals the LAr purity
+The detector is instrumented with a **Bi-207 conversion-electron source**
+for absolute energy calibration, electric field distortion studies, and
+event-by-event liquid argon purity monitoring. **Cosmic ray (CR) muons**
+provide an independent handle for charge equalization across collection
+strips and a complementary electron lifetime measurement.
 
 ---
 
-## Detector Parameters
-
-| Parameter | Value |
-|-----------|-------|
-| Active volume | ~50 litres |
-| Collection strips | 48 × 5 mm pitch |
-| Induction 1 strips | 40 × 7.5 mm pitch |
-| Induction 2 strips | 40 × 7.5 mm pitch |
-| Time ticks | 645 × 0.5 µs/tick |
-| Drift velocity | 1.57 mm/µs |
-| Max drift distance | ~52 cm |
-
----
-
-## Pipeline
+## Repository Structure
 
 ```
-Step 1  →  cr_step1_select.py
-Step 2  →  cr_step2_analyze.py
-Step 3  →  cr_step3_analyze.py
-Extra   →  cr_superposition.py
-```
-
-### Step 1 — Event selection (`cr_step1_select.py`)
-
-Walks all JSON files in the data folder and selects CR muon candidates.
-
-**Selection criteria:**
-- At least 44/48 collection strips have exactly one peak above threshold
-- Multi-peak strips are resolved using the track time window
-- Induction 2 plane shows a bipolar signal within ±15 ticks of the
-  collection time window
-
-**Processing:**
-- Stage 1 (every event): baseline subtraction using the most-frequent-value
-  method (robust to CR signal contamination)
-- Stage 2 (selected events only): coherent noise removal using a symmetric
-  trimmed mean
-
-**Outputs:**
-```
-output/{dataset}/csv/{dataset}-CR_events.csv     # one row per event
-output/{dataset}/csv/{dataset}-CR_charges.csv    # one row per strip per event
-output/{dataset}/plots/event_displays/           # optional 2D event displays
-output/{dataset}/plots/single_traces/            # optional per-channel traces
-```
-
-**Track length formulas:**
-
-Two versions of the 3D track length ΔL are computed:
-
-- **v1** (ICARUS, Navas-Concha et al. 2002, assuming equal pitch):
-
-$$\Delta L_{v1} = \delta d_c \sqrt{\left(\frac{\Delta T \cdot \delta t \cdot v_d}{\delta d_c}\right)^2 + \frac{4}{3}\left(\Delta C^2 + \Delta I^2 - \Delta C \cdot \Delta I\right)}$$
-
-- **v2** (precise, $\delta d_c \neq \delta d_i$):
-
-$$\Delta L_{v2} = \sqrt{\left(\Delta T \cdot \delta t \cdot v_d\right)^2 + \frac{4}{3}\left(\Delta C^2 \cdot \delta d_c^2 + \Delta I^2 \cdot \delta d_i^2 + \Delta C \cdot \Delta I \cdot \delta d_c \cdot \delta d_i\right)}$$
-
-The track pitch length is $\Delta z = \Delta L / \Delta C$ [mm].
-The normalized charge is $\mathrm{d}Q/\mathrm{d}x = Q_\mathrm{peak} / \Delta z$ [ADC·tt·mm⁻¹].
-
----
-
-### Step 2 — Analysis and equalization (`cr_step2_analyze.py`)
-
-Pure CSV-based analysis using PyROOT. No JSON files are read.
-
-**Produces:**
-- ΔL and track pitch length histograms (v1 and v2)
-- 48 × 2 dQ/dx histograms with Landau⊗Gaussian fits
-- MPV scatter plots (strip number vs MPV) with weighted mean lines
-- Equalized dQ/dx histograms and MPV scatter plots
-- `{dataset}-CR_equalization.csv` — equalization factors per version
-- `{dataset}-CR_charges_equalized.csv` — charges with equalized columns
-
-**Equalization:**
-Strips 25–48 are scaled by `mean_lo / mean_hi` (ratio of weighted mean MPV
-of strips 1–24 to strips 25–48) to correct for the observed ~2× gain
-difference between the two halves of the collection plane.
-
-**Requires:** ROOT (run on lxplus with `source setup_lxplus.sh`)
-
-```
-output/{dataset}/plots/summary/
+.
+├── data_conversion/                   # Raw binary → JSON conversion
+├── cr_analysis/                       # CR muon selection, equalization, lifetime
+├── source_analysis/                   # Bi-207 source gain and peak studies
+├── backgroud_simulation/              # Bi-207 background simulation (Fortran + Python)
+├── find_best_source_position_protodune_hd/  # ProtoDUNE-HD source placement optimisation
+├── output/                            # All analysis outputs (auto-populated)
+├── setup_lxplus.sh                    # LCG_109 ROOT environment (lxplus)
+└── setup_local.sh                     # Local Python environment setup
 ```
 
 ---
 
-### Step 3 — Electron lifetime (`cr_step3_analyze.py`)
+## Modules
 
-Reads `*-CR_charges_equalized.csv` and measures the electron lifetime.
+### `data_conversion/` — Raw data conversion
 
-**Methods:**
-1. **2D histogram** — equalized dQ/dx vs peak time with black MPV overlay
-   points and pol1 fit line
-2. **Langaus slice method** — divides the drift axis into slices of
-   `dqdx_slice_bin_width` ticks, fits each slice with a Landau⊗Gaussian,
-   extracts the MPV, then fits `Q_0 \cdot \exp(-t/\tau_e) + C` (C fixed to
-   minimum MPV) to the MPV vs drift time scatter
-3. **Fit range scan** — varies the fit window symmetrically around tick 322
-   to assess the systematic uncertainty on τ
+Converts raw binary acquisition files into JSON format consumed by all
+downstream analyses.
 
-**Electron lifetime result:**
-From the exponential fit to the Langaus MPV vs drift time:
-$Q(t) = Q_0 \cdot e^{-t/\tau_e} + C$, with τ_e extracted directly.
+**Main scripts:**
 
+| Script | Description |
+|--------|-------------|
+| `converter.py` | Single-run binary → JSON conversion |
+| `convert_multiple_days.sh` | Batch conversion over multiple acquisition days |
+| `sort_chn.py` | Re-orders channel indices to define a chn-strip map for correct event display |
+
+**Running:**
+
+```bash
+cd data_conversion
+
+# Convert a single run
+python3 converter.py
+
+# Batch conversion
+bash convert_multiple_days.sh
 ```
-output/{dataset}/plots/step3/
-output/{dataset}/plots/step3/langaus_slices/
-output/{dataset}/plots/step3/fit_range_scan/
-```
+
+**Output:** JSON files written to `../DATA/{dataset}/jsonData/`, which is
+the expected input path for `cr_analysis/` and `source_analysis/`.
+
+**Key includes (`inc/`):**
+
+| Module | Role |
+|--------|------|
+| `raw_conv.py` / `rawto32chn.py` | Low-level binary decoding |
+| `bin_to_json.py` / `saveBinToJSON.py` | Serialisation to JSON |
+| `findPeaks.py` / `findPeaksCount.py` | Peak-finding utilities |
+| `remove_coherent_noise.py` | Coherent noise subtraction |
+| `settings.py` | Shared configuration (thresholds, channel map) |
+| `show_event.py` / `singleEvtDisplay.py` / `simpleEventDisplay.py` | Event display helpers |
 
 ---
 
-### Superposition display (`cr_superposition.py`)
+### `cr_analysis/` — CR muon analysis
 
-Overlays all selected CR events into a single 2D ADC display (no averaging)
-using PyROOT. Produces one plot per detector view (full, collection,
-induction 1, induction 2), in both raw and equalized versions.
+Full cosmic ray muon pipeline: event selection, charge equalization, and
+electron lifetime measurement. See [`cr_analysis/README.md`](cr_analysis/README.md)
+for complete documentation.
+
+**Pipeline summary:**
 
 ```
-output/{dataset}/plots/{dataset}_CR_superposition_{view}.pdf
-output/{dataset}/plots/{dataset}_CR_superposition_{view}_eq_{v1|v2}.pdf
+cr_step1_select.py   →  Event selection (track reconstruction, noise removal)
+cr_step2_analyze.py  →  dQ/dx histograms, Landau⊗Gaussian fits, equalization
+cr_step3_analyze.py  →  Electron lifetime from MPV vs drift time
+cr_superposition.py  →  Superimposed 2D event display (all selected CR events)
 ```
 
----
-
-## Configuration
-
-All user-facing parameters are in `config_cr.py`. Key parameters:
-
-```python
-raw_data_folder_name = '20220511'   # dataset to analyse
-output_root          = './output'
-
-# Step 1 — Selection
-min_strips_1peak = 44       # minimum strips with exactly 1 peak
-peak_height      = 18       # ADC
-peak_width       = 5        # ticks
-evtdisplay_step1 = False    # disable for large runs
-chndisplay_planes_step1 = []
-
-# Step 2 — Analysis (PyROOT)
-norm_charge_bin_width  = 1.0   # ADC·tt·mm⁻¹
-delta_l_bin_width      = 5.0   # mm
-track_pitch_bin_width  = 0.02  # mm
-
-# Step 3 — Electron lifetime
-dqdx_slice_bin_width         = 32   # ticks per drift slice
-dqdx_slice_fit_exclude_edges = 1    # edge slices excluded from expo fit
-dqdx_fit_range_scan          = True # enable systematic scan
-```
-
----
-
-## Data
-
-Raw data is expected at `../DATA/{dataset}/jsonData/` relative to the
-`cr_analysis/` working directory.
-JSON files are produced by the `data_conversion/` pipeline.
-
----
-
-## Dependencies
-
-| Package | Used in |
-|---------|---------|
-| Python ≥ 3.10 | all steps |
-| NumPy, SciPy | Step 1 |
-| Matplotlib | Step 1 displays |
-| ROOT / PyROOT | Steps 2, 3, superposition |
-
-ROOT must be sourced via `setup_lxplus.sh` on lxplus (LCG_109) for Step 2
-and beyond. Step 1 runs locally on macOS with a standard Python venv.
-
----
-
-## Running
+**Quick start:**
 
 ```bash
 cd cr_analysis
 
-# Step 1 — select CR events (run locally or on lxplus)
+# Step 1 — local or lxplus
 python3 cr_step1_select.py
 
-# Step 2 — analysis + equalization (requires ROOT, run on lxplus)
+# Steps 2–3 and superposition — require ROOT (lxplus)
 source ../setup_lxplus.sh
 python3 cr_step2_analyze.py
-
-# Step 3 — electron lifetime (requires ROOT)
 python3 cr_step3_analyze.py
-
-# Superposition display (requires ROOT)
 python3 cr_superposition.py
 ```
 
-For large datasets, run Step 1 in a screen session:
+Configure dataset and analysis parameters in `config_cr.py`.
+
+---
+
+### `source_analysis/` — Bi-207 source analysis
+
+Analyses data collected with the internal Bi-207 conversion-electron source.
+The source emits electrons at well-known discrete energies (976 keV and
+1048 keV conversion lines), enabling several complementary measurements:
+
+- **Absolute energy calibration** — ADC-to-charge conversion factor and
+  gain uniformity across the 48 collection strips
+- **Electric field distortion mapping** — deviations in the reconstructed
+  peak position as a function of strip and drift coordinate reveal local
+  distortions of the drift field
+- **Event-by-event LAr purity monitoring** — attenuation of the
+  conversion-electron charge signal with drift distance provides a
+  continuous, in-situ electron lifetime measurement, complementary to
+  the CR muon method
+
+**Main scripts:**
+
+| Script | Description |
+|--------|-------------|
+| `analysis_02.py` | Main analysis: peak identification and gain extraction |
+| `analyze_csv.py` | CSV-based analysis of pre-processed peak data |
+| `csv_to_charge_histo.py` | Charge histograms from CSV |
+| `csv_to_charge_histo_standalone.py` | Standalone version (no external inc dependencies) |
+| `csv_to_signal_bkg.py` | Signal vs background decomposition |
+| `make_gif.py` | Animated event display (time-lapse of strip response) |
+| `run_multiple_days.sh` / `run_multiple_days_2022.sh` | Batch processing over multiple datasets |
+
+**Running:**
 
 ```bash
-screen -S cr_step1
-python3 cr_step1_select.py
-# Ctrl+A D to detach
+cd source_analysis
+
+# Single-dataset analysis
+python3 analysis_02.py
+
+# Batch over multiple days
+bash run_multiple_days.sh
+```
+
+**Key includes (`inc/`):**
+
+| Module | Role |
+|--------|------|
+| `basic_functions.py` | Baseline subtraction, waveform utilities |
+| `find_peaks_50l.py` | Peak finder tuned for 50-L detector |
+| `find_charge_cluster.py` | Charge cluster identification |
+| `filter_data.py` | Run-level quality filtering |
+| `prepare_data.py` | Data loading and preprocessing |
+| `read_data.py` | JSON file reader |
+| `draw_summary_plots.py` | Summary plot generation |
+| `csv_to_charge_histo.py` | Histogram builder from CSV |
+| `remove_coherent_noise.py` | Coherent noise removal |
+| `store_info.py` | Result serialisation |
+| `analyze_single_strips.py` | Per-strip gain and peak analysis |
+| `show_event.py` / `single_evt_display.py` | Event display |
+| `settings.py` | Thresholds, channel map, output paths |
+
+---
+
+### `backgroud_simulation/` — Bi-207 background simulation
+
+Simulates the expected background contributions to the Bi-207 source
+spectrum, providing reference distributions for signal/background
+separation in `source_analysis/`.
+
+Two independent implementations are provided:
+
+#### Fortran (`fortran/`)
+
+| File | Description |
+|------|-------------|
+| `bi207bg.f` | Main Fortran simulation |
+| `fort.91`–`fort.98` | Simulation output tables |
+| `o.out` | Compiled binary output |
+
+**Compile and run:**
+```bash
+cd backgroud_simulation/fortran
+gfortran -o bi207bg bi207bg.f
+./bi207bg
+```
+
+#### Python (`python/`)
+
+| Script | Description |
+|--------|-------------|
+| `Bi207bg.py` | Python port of the background simulation |
+| `ElectronArrivalChn.py` | Electron arrival distribution per channel |
+| `ElectronArrivalXY.py` | Electron arrival distribution in XY |
+| `PhotonArrivalChn.py` | Photon arrival distribution per channel |
+| `PhotonArrivalXY.py` | Photon arrival distribution in XY |
+| `ReadChannels.py` | Channel map reader |
+| `inc/GV.py` | Global variables and detector geometry constants |
+
+**Running:**
+```bash
+cd backgroud_simulation/python
+python3 Bi207bg.py
+```
+
+---
+
+### `find_best_source_position_protodune_hd/` — ProtoDUNE-HD source placement
+
+Geometric optimisation tool that identifies the optimal placement of a
+radioactive source inside the **ProtoDUNE-HD** detector, maximising
+wire-plane coverage and signal uniformity across APA frames.
+
+**Scripts:**
+
+| Script | Description |
+|--------|-------------|
+| `main.py` | Entry point: runs the optimisation and reports best positions |
+| `apa_frame.py` | APA frame geometry definition |
+| `wire_plane.py` | Wire plane geometry and acceptance model |
+| `wire.py` | Individual wire representation |
+| `point.py` | 3D point / position class |
+| `segment.py` | Line segment utilities (track projections) |
+| `utils.py` | Shared geometric helpers |
+
+**Running:**
+
+```bash
+cd find_best_source_position_protodune_hd
+python3 main.py
 ```
 
 ---
 
 ## Output Structure
 
+All analysis outputs are written under `output/`:
+
 ```
 output/{dataset}/
 ├── csv/
 │   ├── {dataset}-CR_events.csv
 │   ├── {dataset}-CR_charges.csv
-│   ├── {dataset}-CR_equalization.csv       (Step 2)
-│   └── {dataset}-CR_charges_equalized.csv  (Step 2)
+│   ├── {dataset}-CR_equalization.csv
+│   └── {dataset}-CR_charges_equalized.csv
 └── plots/
-    ├── event_displays/   (Step 1, optional)
-    ├── single_traces/    (Step 1, optional)
-    ├── summary/          (Step 2)
-    └── step3/            (Step 3)
+    ├── event_displays/
+    ├── single_traces/
+    ├── summary/
+    └── step3/
+        ├── langaus_slices/
+        └── fit_range_scan/
 ```
+
+Dataset directories in `output/` follow the naming convention
+`{date}_{config}_{noise_treatment}`, e.g. `20220511_ALL_noCNR`.
+
+---
+
+## Environment Setup
+
+### lxplus (ROOT required — Steps 2/3 of CR and source analyses)
+
+```bash
+source setup_lxplus.sh   # sources LCG_109, sets PYTHONPATH
+```
+
+### Local (Step 1 of CR analysis, source analysis, simulations)
+
+```bash
+source setup_local.sh    # activates Python venv with NumPy, SciPy, Matplotlib
+```
+
+### Dependencies summary
+
+| Package | Used in |
+|---------|---------|
+| Python ≥ 3.10 | all modules |
+| NumPy, SciPy | cr_analysis Step 1, source_analysis |
+| Matplotlib | event displays |
+| ROOT / PyROOT | cr_analysis Steps 2–3, source_analysis histograms |
+| gfortran | backgroud_simulation/fortran |
+
+---
+
+## Data
+
+Raw acquisition data is expected at:
+```
+../DATA/{dataset}/jsonData/
+```
+relative to each analysis directory. JSON files are produced by
+`data_conversion/`. The `DATA/` folder is not tracked in this repository.
 
 ---
 
 ## References
 
-- S. Navas-Concha et al., *NIM A* **486** (2002) 462–474 — track length formula (v1)
+- S. Navas-Concha et al., *NIM A* **486** (2002) 462–474 — 3D track length formula
 - ICARUS Collaboration, *NIM A* **527** (2004) 329–410 — dQ/dx methodology
