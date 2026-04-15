@@ -298,7 +298,3 @@ relative to each analysis directory. JSON files are produced by
 
 ---
 
-## References
-
-- S. Navas-Concha et al., *NIM A* **486** (2002) 462–474 — 3D track length formula
-- ICARUS Collaboration, *NIM A* **527** (2004) 329–410 — dQ/dx methodology
