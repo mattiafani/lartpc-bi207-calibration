@@ -106,6 +106,7 @@ python3 cr_superposition.py
 All analysis outputs are written under `output/`:
 
 ```
+```
 output/{dataset}/
 ├── csv/
 │   ├── {dataset}-CR_events.csv
@@ -120,7 +121,7 @@ output/{dataset}/
         ├── langaus_slices/
         └── fit_range_scan/
 ```
-```
+
 
 <img src="figures_for_readme_page/01_CR/01_evt_display.png" alt="evt display" width="800"/>
 
@@ -143,6 +144,7 @@ output/{dataset}/
 <img src="figures_for_readme_page/01_CR/10_e_lifetime_fit_example.png" alt="e lifetime fit example" width="800"/>
 
 
+```
 ```
 Configure dataset and analysis parameters in `config_cr.py`.
 
