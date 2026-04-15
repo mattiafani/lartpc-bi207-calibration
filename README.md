@@ -102,10 +102,6 @@ python3 cr_step3_analyze.py
 python3 cr_superposition.py
 
 
-<img src="figures/evt_display.pdf" alt="Event display" width="500"/>
-
-<img src="figures/strips.gif" alt="Single traces" width="500"/>
-
 ```
 Configure dataset and analysis parameters in `config_cr.py`.
 
