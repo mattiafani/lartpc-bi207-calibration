@@ -129,19 +129,13 @@ output/{dataset}/
 
 <img src="figures_for_readme_page/01_CR/03_cr_superposition.png" alt="cr superposition" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/04_equalized_dqdx.png" alt="equalized dqdx" width="800"/>
-
 <img src="figures_for_readme_page/01_CR/05_single_dqdx.png" alt="single dqdx" width="800"/>
 
 <img src="figures_for_readme_page/01_CR/06_dqdx_vs_pktime.png" alt="dqdx vs pktime" width="800"/>
 
-<img src="figures_for_readme_page/01_CR/07_linear_lifetime_systematic.png" alt="linear lifetime systematic" width="800"/>
-
 <img src="figures_for_readme_page/01_CR/08_dqdx_vs_pktime_tslice.png" alt="dqdx vs pktime tslice" width="800"/>
 
 <img src="figures_for_readme_page/01_CR/09_timeslice.png" alt="timeslice" width="800"/>
-
-<img src="figures_for_readme_page/01_CR/10_e_lifetime_fit_example.png" alt="e lifetime fit example" width="800"/>
 
 
 ```
