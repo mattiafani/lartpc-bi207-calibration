@@ -276,13 +276,13 @@ cd find_best_source_position_protodune_hd
 python3 main.py
 ```
 
-<img src="figures_for_readme_page/04_APA/01.png" alt="01" width="500"/>
+<img src="figures_for_readme_page/04_APA/01.png" alt="01" width="800"/>
 
-<img src="figures_for_readme_page/04_APA/02.png" alt="02" width="500"/>
+<img src="figures_for_readme_page/04_APA/02.png" alt="02" width="800"/>
 
-<img src="figures_for_readme_page/04_APA/03.png" alt="03" width="500"/>
+<img src="figures_for_readme_page/04_APA/03.png" alt="03" width="800"/>
 
-<img src="figures_for_readme_page/04_APA/04.png" alt="04" width="500"/>
+<img src="figures_for_readme_page/04_APA/04.png" alt="04" width="800"/>
 
 ---
 
