@@ -278,26 +278,6 @@ python3 main.py
 
 ---
 
-## Output Structure
-
-All analysis outputs are written under `output/`:
-
-```
-output/{dataset}/
-├── csv/
-│   ├── {dataset}-CR_events.csv
-│   ├── {dataset}-CR_charges.csv
-│   ├── {dataset}-CR_equalization.csv
-│   └── {dataset}-CR_charges_equalized.csv
-└── plots/
-    ├── event_displays/
-    ├── single_traces/
-    ├── summary/
-    └── step3/
-        ├── langaus_slices/
-        └── fit_range_scan/
-```
-
 Dataset directories in `output/` follow the naming convention
 `{date}_{config}_{noise_treatment}`, e.g. `20220511_ALL_noCNR`.
 
