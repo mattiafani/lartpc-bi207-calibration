@@ -19,5 +19,5 @@ find . -type f \( -name "*.pdf" -o -name "*.gif" -o -name "*.png" \) | sort | wh
   alt="$(echo "$name" | sed 's/^[0-9]\+_//; s/_/ /g')"
 
   # Print README line
-  echo "<img src=\"figures_for_readme_page/${img#./}\" alt=\"${alt}\" width=\"500\"/>"
+  echo "<img src=\"figures_for_readme_page/${img#./}\" alt=\"${alt}\" width=\"800\"/>"
 done

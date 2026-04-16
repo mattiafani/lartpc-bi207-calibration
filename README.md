@@ -138,9 +138,12 @@ output/{dataset}/
 <img src="figures_for_readme_page/01_CR/09_timeslice.png" alt="timeslice" width="800"/>
 
 
-```
-```
+---
+
 Configure dataset and analysis parameters in `config_cr.py`.
+
+Dataset directories in `output/` follow the naming convention
+`{date}_{config}_{noise_treatment}`, e.g. `20220511_ALL_noCNR`.
 
 ---
 
