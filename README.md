@@ -289,11 +289,6 @@ python3 main.py
 
 ---
 
-Dataset directories in `output/` follow the naming convention
-`{date}_{config}_{noise_treatment}`, e.g. `20220511_ALL_noCNR`.
-
----
-
 ## Environment Setup
 
 ### lxplus
